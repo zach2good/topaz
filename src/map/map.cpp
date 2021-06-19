@@ -271,9 +271,8 @@ int32 do_init(int32 argc, char** argv)
     g_PBuff   = new int8[map_config.buffer_size + 20];
     PTempBuff = new int8[map_config.buffer_size + 20];
 
-    ShowStatus("do_init: loading modules");
+    ShowStatus("do_init: loading modules:\n");
     moduleutils::LoadModules();
-    ShowMessage("\t\t\t - " CL_GREEN "[OK]" CL_RESET "\n");
 
     PacketGuard::Init();
 

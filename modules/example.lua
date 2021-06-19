@@ -6,7 +6,7 @@ require("scripts/globals/player")
 -----------------------------------
 local enabled = false
 if not enabled then
-    return
+    return -1
 end
 
 -- Override: xi.player.onPlayerLevelUp = function(player) ... end

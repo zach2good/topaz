@@ -45,9 +45,15 @@ namespace moduleutils
                 path.extension() == ".lua" &&
                 !isHelpersFile)
             {
-                std::cout << path.string() << "\n";
-                lua.script_file(path.generic_string());
+                auto ret = lua.script_file(path.generic_string());
+
+                // If nothing returns, the script was loaded
+                if (ret.return_count() == 0)
+                {
+                    ShowMessage("\t\t\t\t - %s\n", path.filename());
+                }
             }
         }
+
     }
 }; // namespace moduleutils

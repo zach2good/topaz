@@ -9,7 +9,7 @@ require("scripts/missions/wotg/helpers")
 -----------------------------------
 local enabled = false
 if not enabled then
-    return
+    return -1
 end
 
 module.override(xi.wotg.helpers, "meetsMission3Reqs", function(player)
