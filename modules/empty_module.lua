@@ -1,11 +1,9 @@
 -----------------------------------
 -- Empty Module
 -----------------------------------
-require("scripts/globals/items")
+require("modules/module")
 -----------------------------------
-local enabled = true
-if not enabled then
-    return -1
-end
+local m = Module:new("empty_module")
+m.enabled = false
 
 -- Intentionally blank

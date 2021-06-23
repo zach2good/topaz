@@ -1,16 +1,15 @@
 -----------------------------------
 -- Basic Example Module
 -----------------------------------
+require("modules/module")
 require("scripts/globals/items")
 require("scripts/globals/player")
 -----------------------------------
-local enabled = false
-if not enabled then
-    return -1
-end
+local m = Module:new("example_module")
+m.enabled = false
 
 -- Override: xi.player.onPlayerLevelUp = function(player) ... end
-module.override(xi.player, "onPlayerLevelUp", function(player)
+m.override(xi.player, "onPlayerLevelUp", function(player)
     -- Call the original function before your logic
     super(player)
 

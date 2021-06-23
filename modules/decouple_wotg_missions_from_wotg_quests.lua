@@ -5,17 +5,16 @@
 -- missions without having to do the blocking nation
 -- quests.
 -----------------------------------
+require("modules/module")
 require("scripts/missions/wotg/helpers")
 -----------------------------------
-local enabled = false
-if not enabled then
-    return -1
-end
+local m = Module:new("decouple_wotg_missions_from_worg_quests")
+m.enabled = false
 
-module.override(xi.wotg.helpers, "meetsMission3Reqs", function(player)
+m:override(xi.wotg.helpers, "meetsMission3Reqs", function(player)
     return true
 end)
 
-module.override(xi.wotg.helpers, "meetsMission8Reqs", function(player)
+m:override(xi.wotg.helpers, "meetsMission8Reqs", function(player)
     return true
 end)
