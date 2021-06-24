@@ -30,6 +30,8 @@ namespace moduleutils
 {
     void LoadModules()
     {
+        return;
+
         auto& lua = luautils::lua;
 
         // Load the helper file

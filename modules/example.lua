@@ -5,7 +5,11 @@ require("modules/module")
 require("scripts/globals/items")
 require("scripts/globals/player")
 -----------------------------------
+
+-- Create a module, give it a name
 local m = Module:new("example_module")
+
+-- Enable it, true/false
 m.enabled = false
 
 -- Override: xi.player.onPlayerLevelUp = function(player) ... end
