@@ -18,12 +18,12 @@ local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.ARCIELA_APP
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.SOA, xi.mission.id.asa.BUILDING_PROSPECTS },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.BUILDING_PROSPECTS },
 }
 
 local spentEnoughImprimaturs = function(player)
     -- TODO
-    return false
+    return player:getFameLevel(ADOULIN) >= 4
 end
 
 mission.sections =
@@ -31,8 +31,7 @@ mission.sections =
     {
         check = function(player, currentMission, missionStatus, vars)
             return currentMission == mission.missionId and
-                   spentEnoughImprimaturs(player) and
-                   player:getFameLevel(ADOULIN) >= 4
+                   spentEnoughImprimaturs(player)
         end,
 
         [xi.zone.WESTERN_ADOULIN] =

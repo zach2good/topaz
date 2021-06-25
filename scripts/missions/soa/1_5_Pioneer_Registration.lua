@@ -18,7 +18,7 @@ local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.PIONEER_REG
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.SOA, xi.mission.id.asa.LIFE_ON_THE_FRONTIER },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.LIFE_ON_THE_FRONTIER },
 }
 
 mission.sections =

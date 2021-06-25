@@ -18,7 +18,7 @@ local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.MEETING_OF_
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.SOA, xi.mission.id.asa.ARCIELA_APPEARS_AGAIN },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.ARCIELA_APPEARS_AGAIN },
 }
 
 local isDinnerTime = function()

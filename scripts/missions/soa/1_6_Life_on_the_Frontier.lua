@@ -18,12 +18,12 @@ local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.LIFE_ON_THE
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.SOA, xi.mission.id.asa.MEETING_OF_THE_MINDS },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.MEETING_OF_THE_MINDS },
 }
 
 local spentEnoughImprimaturs = function(player)
     -- TODO
-    return false
+    return player:getFameLevel(ADOULIN) >= 2
 end
 
 mission.sections =
@@ -31,8 +31,7 @@ mission.sections =
     {
         check = function(player, currentMission, missionStatus, vars)
             return currentMission == mission.missionId and
-                   spentEnoughImprimaturs(player) and
-                   player:getFameLevel(ADOULIN) >= 2
+                   spentEnoughImprimaturs(player)
         end,
 
         [xi.zone.WESTERN_ADOULIN] =

@@ -17,7 +17,7 @@ local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.RUMORS_FROM
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.SOA, xi.mission.id.asa.THE_GEOMAGNETRON },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.THE_GEOMAGNETRON },
 }
 
 mission.sections =
@@ -56,11 +56,12 @@ mission.sections =
             {
                 [10117] = function(player, csid, option, npc)
                     if option == 1 then
-                        npcUtil.giveKeyItem(player, xi.ki.GEOMAGNETRON)
-                        mission:complete(player)
+                        if mission:complete(player) then
+                            npcUtil.giveKeyItem(player, xi.ki.GEOMAGNETRON)
+                        end
                     elseif option == 2 then
                         -- Paid to skip ahead, handle this manually
-                        mission:complete(player) -- Gives xi.ki.GEOMAGNETRON
+                        mission:complete(player)
                         player:delGil(1000000)
                         npcUtil.giveKeyItem(player, xi.ki.ADOULINIAN_CHARTER_PERMIT)
                         player:completeMission(xi.mission.log_id.SOA, xi.mission.id.soa.THE_GEOMAGNETRON)

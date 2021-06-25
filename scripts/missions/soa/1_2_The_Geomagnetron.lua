@@ -16,7 +16,7 @@ local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.THE_GEOMAGN
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.SOA, xi.mission.id.asa.ONWARD_TO_ADOULIN },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.ONWARD_TO_ADOULIN },
 }
 
 mission.sections =
@@ -62,7 +62,8 @@ mission.sections =
 
             onEventFinish =
             {
-                [10117] = function(player, csid, option, npc)
+                [10118] = function(player, csid, option, npc)
+                    mission:complete(player)
                     player:delKeyItem(xi.ki.GEOMAGNETRON)
                     npcUtil.giveKeyItem(player, xi.ki.GEOMAGNETRON)
                     npcUtil.giveKeyItem(player, xi.ki.ADOULINIAN_CHARTER_PERMIT)
