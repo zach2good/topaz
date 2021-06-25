@@ -46,13 +46,6 @@ zone_object.onZoneIn = function(player, prevZone)
         (player:getCurrentMission(player:getNation()) == xi.mission.id.nation.SHADOW_LORD and missionStatus >= 4))
     then
         cs = 30036
-    -- SOA 1-1 Optional CS
-    elseif
-        ENABLE_SOA == 1 and
-        player:getCurrentMission(SOA) == xi.mission.id.soa.RUMORS_FROM_THE_WEST and
-        player:getCharVar("SOA_1_CS1") == 0
-    then
-        cs = 878
     -- RDM AF3 CS
     elseif player:getCharVar("peaceForTheSpiritCS") == 5 and player:getFreeSlotsCount() >= 1 then
         cs = 49
@@ -118,8 +111,6 @@ zone_object.onEventFinish = function(player, csid, option)
     elseif csid == 16 then
         player:setCharVar("Wait1DayM8-1_date", 0)
         player:setCharVar("Mission8-1Completed", 1)
-    elseif csid == 878 then
-        player:setCharVar("SOA_1_CS1", 1)
     elseif csid == 30035 then
         player:completeMission(xi.mission.log_id.ROV, xi.mission.id.rov.RHAPSODIES_OF_VANADIEL)
         player:addMission(xi.mission.log_id.ROV, xi.mission.id.rov.RESONACE)
