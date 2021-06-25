@@ -42,6 +42,27 @@ mission.sections =
                     return mission:progressEvent(10117, 1, turnOffAskingForWork)
                 end,
             },
+
+            onEventUpdate =
+            {
+                [10117] = function(player, csid, option, npc)
+                    local hasEnoughGil = player:getGil() >= 1000000 and 1 or 0
+                    print(hasEnoughGil)
+                    player:updateEvent(hasEnoughGil)
+                end,
+            },
+
+            onEventFinish =
+            {
+                [10117] = function(player, csid, option, npc)
+                    if option == 2 then
+                        -- Paid to skip ahead, handle this manually
+                        mission:complete(player)
+                        player:delGil(1000000)
+                        npcUtil.giveKeyItem(player, xi.ki.ADOULINIAN_CHARTER_PERMIT)
+                    end
+                end,
+            }
         },
     },
 
