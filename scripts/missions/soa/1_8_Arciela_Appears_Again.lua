@@ -18,7 +18,7 @@ local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.ARCIELA_APP
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.BUILDING_PROSPECTS },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.BUDDING_PROSPECTS },
 }
 
 local spentEnoughImprimaturs = function(player)

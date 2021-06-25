@@ -47,7 +47,6 @@ mission.sections =
             {
                 [10117] = function(player, csid, option, npc)
                     local hasEnoughGil = player:getGil() >= 1000000 and 1 or 0
-                    print(hasEnoughGil)
                     player:updateEvent(hasEnoughGil)
                 end,
             },
