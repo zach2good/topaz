@@ -16,7 +16,7 @@ local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.THE_GEOMAGN
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.ASA, xi.mission.id.asa.ONWARD_TO_ADOULIN },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.asa.ONWARD_TO_ADOULIN },
 }
 
 mission.sections =

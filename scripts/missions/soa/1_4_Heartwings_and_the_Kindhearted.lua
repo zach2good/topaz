@@ -16,7 +16,7 @@ local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.HEARTWINGS_
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.ASA, xi.mission.id.asa.PIONEER_REGISTRATION },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.asa.PIONEER_REGISTRATION },
 }
 
 mission.sections =

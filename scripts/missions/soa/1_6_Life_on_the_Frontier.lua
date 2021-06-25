@@ -3,7 +3,7 @@
 -- Seekers of Adoulin M1-6
 -----------------------------------
 -- !addmission 12 7
--- Brenton : TODO
+-- Brenton : !pos -86.036 3.349 18.121 256
 -----------------------------------
 require('scripts/globals/missions')
 require('scripts/globals/settings')
@@ -18,12 +18,12 @@ local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.LIFE_ON_THE
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.ASA, xi.mission.id.asa.MEETING_OF_THE_MINDS },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.asa.MEETING_OF_THE_MINDS },
 }
 
 local spentEnoughImprimaturs = function(player)
     -- TODO
-    return true
+    return false
 end
 
 mission.sections =

@@ -17,7 +17,7 @@ local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.RUMORS_FROM
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.ASA, xi.mission.id.asa.THE_GEOMAGNETRON },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.asa.THE_GEOMAGNETRON },
 }
 
 mission.sections =

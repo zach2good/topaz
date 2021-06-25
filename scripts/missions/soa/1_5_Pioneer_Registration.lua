@@ -3,7 +3,7 @@
 -- Seekers of Adoulin M1-5
 -----------------------------------
 -- !addmission 12 6
--- Brenton : TODO
+-- Brenton : !pos -86.036 3.349 18.121 256
 -----------------------------------
 require('scripts/globals/missions')
 require('scripts/globals/settings')
@@ -18,7 +18,7 @@ local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.PIONEER_REG
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.ASA, xi.mission.id.asa.LIFE_ON_THE_FRONTIER },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.asa.LIFE_ON_THE_FRONTIER },
 }
 
 mission.sections =

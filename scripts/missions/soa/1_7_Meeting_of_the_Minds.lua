@@ -2,8 +2,8 @@
 -- Meeting of the Minds
 -- Seekers of Adoulin M1-7
 -----------------------------------
--- !addmission 12 7
--- Ploh_Trishbahk : TODO
+-- !addmission 12 8
+-- Ploh Trishbahk : !pos 100.580 -40.150 -63.830 257
 -----------------------------------
 require('scripts/globals/missions')
 require('scripts/globals/settings')
@@ -18,7 +18,7 @@ local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.MEETING_OF_
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.ASA, xi.mission.id.asa.ARCIELA_APPEARS_AGAIN },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.asa.ARCIELA_APPEARS_AGAIN },
 }
 
 local isDinnerTime = function()
