@@ -22,8 +22,11 @@ mission.reward =
 }
 
 local spentEnoughImprimaturs = function(player)
-    -- TODO
-    return player:getFameLevel(ADOULIN) >= 2
+    -- TODO: All of this
+    local imprimatursSpent = 0
+    local fame = player:getFameLevel(ADOULIN)
+    local gate = 50 - (fame * 5)
+    return imprimatursSpent >= gate
 end
 
 mission.sections =
