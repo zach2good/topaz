@@ -32,7 +32,7 @@ mission.sections =
             return currentMission == mission.missionId
         end,
 
-        [xi.zone.WESTERN_ADOULIN] =
+        [xi.zone.EASTERN_ADOULIN] =
         {
             ['Ploh_Trishbahk'] =
             {

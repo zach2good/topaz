@@ -49,8 +49,9 @@ mission.sections =
             onEventFinish =
             {
                 [4] = function(player, csid, option, npc)
-                    npcUtil.giveKeyItem(player, xi.ki.DINNER_INVITATION)
-                    mission:complete(player)
+                    if mission:complete(player) then
+                        npcUtil.giveKeyItem(player, xi.ki.DINNER_INVITATION)
+                    end
                 end,
             },
         },
