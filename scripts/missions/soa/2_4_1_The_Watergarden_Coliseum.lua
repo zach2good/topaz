@@ -1,9 +1,9 @@
 -----------------------------------
--- Budding Prospects
--- Seekers of Adoulin M2-1
+-- The Watergarden Coliseum
+-- Seekers of Adoulin M2-4-1
 -----------------------------------
--- !addmission 12 11
--- Levil : !pos -87.204 3.350 12.655 256
+-- !addmission 12 19
+-- Yeggha_Dolashi : !pos 260.000 -5.768 60.000 258
 -----------------------------------
 require('scripts/globals/missions')
 require('scripts/globals/settings')
@@ -28,18 +28,18 @@ mission.sections =
             return currentMission == mission.missionId and missionStatus == 0
         end,
 
-        [xi.zone.WESTERN_ADOULIN] =
+        [xi.zone.RALA_WATERWAYS] =
         {
-            ['Levil'] =
+            ['Yeggha_Dolashi'] =
             {
                 onTrigger = function(player, npc)
-                    return mission:progressEvent(6)
+                    return mission:progressEvent(0)
                 end,
             },
 
             onEventFinish =
             {
-                [7] = function(player, csid, option, npc)
+                [0] = function(player, csid, option, npc)
                     mission:complete(player)
                 end,
             },

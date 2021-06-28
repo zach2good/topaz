@@ -32,7 +32,7 @@ mission.sections =
         {
             onRegionEnter =
             {
-                -- TODO: One day wait since the last event
+                -- TODO: One day wait
                 [2] = function(player, region)
                     return mission:progressEvent(1503)
                 end,

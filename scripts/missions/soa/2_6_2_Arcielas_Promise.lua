@@ -1,9 +1,9 @@
 -----------------------------------
--- Budding Prospects
--- Seekers of Adoulin M2-1
+-- Arciela's Promise
+-- Seekers of Adoulin M2-6-2
 -----------------------------------
--- !addmission 12 11
--- Levil : !pos -87.204 3.350 12.655 256
+-- !addmission 12 29
+-- Ploh Trishbahk : !pos 100.580 -40.150 -63.830 257
 -----------------------------------
 require('scripts/globals/missions')
 require('scripts/globals/settings')
@@ -28,7 +28,22 @@ mission.sections =
             return currentMission == mission.missionId
         end,
 
+        [xi.zone.EASTERN_ADOULIN] =
+        {
+            ['Ploh_Trishbahk'] =
+            {
+                onTrigger = function(player, npc)
+                    return mission:progressEvent(1506)
+                end,
+            },
 
+            onEventFinish =
+            {
+                [1506] = function(player, csid, option, npc)
+                    mission:complete(player)
+                end,
+            },
+        },
     },
 }
 

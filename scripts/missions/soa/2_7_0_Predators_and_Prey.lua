@@ -1,8 +1,8 @@
 -----------------------------------
--- Budding Prospects
--- Seekers of Adoulin M2-1
+-- Predators and Prey
+-- Seekers of Adoulin M2-7
 -----------------------------------
--- !addmission 12 11
+-- !addmission 12 30
 -- Levil : !pos -87.204 3.350 12.655 256
 -----------------------------------
 require('scripts/globals/missions')
@@ -28,7 +28,22 @@ mission.sections =
             return currentMission == mission.missionId
         end,
 
+        [xi.zone.RALA_WATERWAYS] =
+        {
+            ['Sluice_Gate_6'] =
+            {
+                onTrigger = function(player, npc)
+                    return mission:progressEvent(352)
+                end,
+            },
 
+            onEventFinish =
+            {
+                [352] = function(player, csid, option, npc)
+                    mission:complete(player)
+                end,
+            },
+        },
     },
 }
 

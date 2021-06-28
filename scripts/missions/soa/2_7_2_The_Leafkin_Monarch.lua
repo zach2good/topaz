@@ -1,9 +1,9 @@
 -----------------------------------
--- Budding Prospects
--- Seekers of Adoulin M2-1
+-- The Leafkin Monarch
+-- Seekers of Adoulin M2-7-2
 -----------------------------------
--- !addmission 12 11
--- Levil : !pos -87.204 3.350 12.655 256
+-- !addmission 12 34
+-- Ploh Trishbahk (trigger area) : !pos 100.580 -40.150 -63.830 257
 -----------------------------------
 require('scripts/globals/missions')
 require('scripts/globals/settings')
@@ -28,7 +28,22 @@ mission.sections =
             return currentMission == mission.missionId
         end,
 
+        [xi.zone.EASTERN_ADOULIN] =
+        {
+            onRegionEnter =
+            {
+                [1] = function(player, region)
+                    return mission:progressEvent(1507)
+                end,
+            },
 
+            onEventFinish =
+            {
+                [1507] = function(player, csid, option, npc)
+                    mission:complete(player)
+                end,
+            },
+        },
     },
 }
 

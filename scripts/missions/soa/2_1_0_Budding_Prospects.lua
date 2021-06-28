@@ -26,12 +26,13 @@ mission.sections =
     -- 0:
     {
         check = function(player, currentMission, missionStatus, vars)
-            return currentMission == mission.missionId-- and
-                   --player:getQuestStatus(xi.quest.log_id.ADOULIN, xi.quest.id.soa.FLAVORS_OF_OUR_LIVES) == QUEST_COMPLETED
+            return currentMission == mission.missionId and
+                   player:getQuestStatus(xi.quest.log_id.ADOULIN, xi.quest.id.soa.FLAVORS_OF_OUR_LIVES) == QUEST_COMPLETED
         end,
 
         [xi.zone.WESTERN_ADOULIN] =
         {
+            -- TODO: One day wait
             ['Masad'] =
             {
                 onTrigger = function(player, npc)

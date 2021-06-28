@@ -1,8 +1,8 @@
 -----------------------------------
--- Budding Prospects
--- Seekers of Adoulin M2-1
+-- The Celennia Memorial Library
+-- Seekers of Adoulin M2-5-1
 -----------------------------------
--- !addmission 12 11
+-- !addmission 12 21
 -- Levil : !pos -87.204 3.350 12.655 256
 -----------------------------------
 require('scripts/globals/missions')
@@ -28,18 +28,57 @@ mission.sections =
             return currentMission == mission.missionId and missionStatus == 0
         end,
 
+        [xi.zone.THE_CELENNIA_MEMORIAL_LIBRARY] =
+        {
+            ['Yafafa'] =
+            {
+                onTrigger = function(player, npc)
+                    return mission:progressEvent(1)
+                end,
+            },
+
+            ['History'] =
+            {
+                onTrigger = function(player, npc)
+                    return mission:progressEvent(1003, 1)
+                end,
+            },
+
+            onEventUpdate =
+            {
+                [1003] = function(player, csid, option, npc)
+                    -- Was shown the password
+                    if option == 1 then
+                        player:setMissionStatus(mission.areaId, 1)
+                    end
+                end,
+            },
+        },
+    },
+
+    {
+        check = function(player, currentMission, missionStatus, vars)
+            return currentMission == mission.missionId and missionStatus == 1
+        end,
+
+        [xi.zone.THE_CELENNIA_MEMORIAL_LIBRARY] =
+        {
+            ['Yafafa'] = mission:event(1),
+            ['History'] = mission:event(1003, 1),
+        },
+
         [xi.zone.WESTERN_ADOULIN] =
         {
             ['Levil'] =
             {
                 onTrigger = function(player, npc)
-                    return mission:progressEvent(6)
+                    return mission:progressEvent(256)
                 end,
             },
 
             onEventFinish =
             {
-                [7] = function(player, csid, option, npc)
+                [256] = function(player, csid, option, npc)
                     mission:complete(player)
                 end,
             },

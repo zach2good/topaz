@@ -1,9 +1,9 @@
 -----------------------------------
--- Budding Prospects
--- Seekers of Adoulin M2-1
+-- Calamity in the Kitchen
+-- Seekers of Adoulin M2-6-1
 -----------------------------------
--- !addmission 12 11
--- Levil : !pos -87.204 3.350 12.655 256
+-- !addmission 12 27
+-- Chalvava : !pos -318.000 -1.000 -318.000 258
 -----------------------------------
 require('scripts/globals/missions')
 require('scripts/globals/settings')
@@ -28,7 +28,24 @@ mission.sections =
             return currentMission == mission.missionId
         end,
 
+        [xi.zone.RALA_WATERWAYS] =
+        {
+            ['Chalvava'] =
+            {
+                onTrigger = function(player, npc)
+                    return mission:progressEvent(344)
+                end,
+            },
 
+            onEventFinish =
+            {
+                [344] = function(player, csid, option, npc)
+                    if mission:complete(player) then
+                        npcUtil.giveKeyItem(player, xi.ki.BOX_OF_ADOULINIAN_TOMATOES)
+                    end
+                end,
+            },
+        },
     },
 }
 

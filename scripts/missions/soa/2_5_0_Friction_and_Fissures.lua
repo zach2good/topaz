@@ -1,8 +1,8 @@
 -----------------------------------
--- Budding Prospects
--- Seekers of Adoulin M2-1
+-- Friction and Fissures
+-- Seekers of Adoulin M2-5
 -----------------------------------
--- !addmission 12 11
+-- !addmission 12 20
 -- Levil : !pos -87.204 3.350 12.655 256
 -----------------------------------
 require('scripts/globals/missions')
@@ -32,14 +32,15 @@ mission.sections =
         {
             ['Levil'] =
             {
+                -- TODO: Wait until next day
                 onTrigger = function(player, npc)
-                    return mission:progressEvent(6)
+                    return mission:progressEvent(123)
                 end,
             },
 
             onEventFinish =
             {
-                [7] = function(player, csid, option, npc)
+                [123] = function(player, csid, option, npc)
                     mission:complete(player)
                 end,
             },
