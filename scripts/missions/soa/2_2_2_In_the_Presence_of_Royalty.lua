@@ -1,9 +1,10 @@
 -----------------------------------
--- Budding Prospects
--- Seekers of Adoulin M2-1
+-- In the Presence of Royalty
+-- Seekers of Adoulin M2-2-2
 -----------------------------------
--- !addmission 12 11
--- Levil : !pos -87.204 3.350 12.655 256
+-- !addmission 12 16
+-- Ergon_Locus_3      : !pos 442.000 0.660 -224.000 263
+-- Pellucid_Afflusion : !pos -175.100 1.700 387.700 263
 -----------------------------------
 require('scripts/globals/missions')
 require('scripts/globals/settings')
@@ -14,35 +15,61 @@ require('scripts/globals/zone')
 local ID = require("scripts/zones/Western_Adoulin/IDs")
 -----------------------------------
 
-local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.THE_HEIRLOOM)
+local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.IN_THE_PRESENCE_OF_ROYALTY)
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.THE_LIGHT_SHINING_IN_YOUR_EYES },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.THE_TWIN_WORLD_TREES },
 }
 
 mission.sections =
 {
+    -- Need the key item
     {
         check = function(player, currentMission, missionStatus, vars)
-            return currentMission == mission.missionId
+            return currentMission == mission.missionId and not player:hasKeyItem(xi.ki.YORCIAS_TEAR)
         end,
 
         [xi.zone.YORCIA_WEALD] =
         {
-            onZoneIn =
+            ['Harvesting_Point'] = {
+                onTrade = function(player, npc, trade)
+                    -- TODO: CSID for YORCIA_WEALD
+                    xi.helm.onTrade(player, npc, trade, xi.helm.type.HARVESTING, nil, nil)
+                    return mission:keyItem(xi.ki.YORCIAS_TEAR)
+                end,
+            },
+
+            ['Ergon_Locus_3'] =
             {
-                function(player, prevZone)
-                    if prevZone == xi.zone.WINDURST_WATERS or prevZone == xi.zone.WINDURST_WOODS then
-                        return mission:event(510)
-                    end
+                onTrigger = function(player, npc)
+                    return mission:keyItem(xi.ki.YORCIAS_TEAR)
+                end,
+            },
+        },
+    },
+
+    -- Has the key item
+    {
+        check = function(player, currentMission, missionStatus, vars)
+            return currentMission == mission.missionId and player:hasKeyItem(xi.ki.YORCIAS_TEAR)
+        end,
+
+        [xi.zone.YORCIA_WEALD] =
+        {
+            ['Pellucid_Afflusion'] =
+            {
+                onTrigger = function(player, npc)
+                    return mission:progressEvent(2)
                 end,
             },
 
             onEventFinish =
             {
-                [7] = function(player, csid, option, npc)
-                    mission:complete(player)
+                [2] = function(player, csid, option, npc)
+                    if mission:complete(player) then
+                        npcUtil.giveKeyItem(player, xi.ki.ROSULATIAS_POME)
+                    end
                 end,
             },
         },

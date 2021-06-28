@@ -1,9 +1,9 @@
 -----------------------------------
--- Budding Prospects
--- Seekers of Adoulin M2-1
+-- Ortharsyne
+-- Seekers of Adoulin M2-2-1
 -----------------------------------
--- !addmission 12 11
--- Levil : !pos -87.204 3.350 12.655 256
+-- !addmission 12 15
+-- YORCIA_WEALD : !zone 264
 -----------------------------------
 require('scripts/globals/missions')
 require('scripts/globals/settings')
@@ -14,11 +14,11 @@ require('scripts/globals/zone')
 local ID = require("scripts/zones/Western_Adoulin/IDs")
 -----------------------------------
 
-local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.THE_HEIRLOOM)
+local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.ORTHARSYNE)
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.THE_LIGHT_SHINING_IN_YOUR_EYES },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.IN_THE_PRESENCE_OF_ROYALTY },
 }
 
 mission.sections =
@@ -33,15 +33,13 @@ mission.sections =
             onZoneIn =
             {
                 function(player, prevZone)
-                    if prevZone == xi.zone.WINDURST_WATERS or prevZone == xi.zone.WINDURST_WOODS then
-                        return mission:event(510)
-                    end
+                    return mission:event(1)
                 end,
             },
 
             onEventFinish =
             {
-                [7] = function(player, csid, option, npc)
+                [1] = function(player, csid, option, npc)
                     mission:complete(player)
                 end,
             },

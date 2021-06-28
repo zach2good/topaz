@@ -1,9 +1,9 @@
 -----------------------------------
--- Budding Prospects
--- Seekers of Adoulin M2-1
+-- The Heirloom
+-- Seekers of Adoulin M2-1-2
 -----------------------------------
--- !addmission 12 11
--- Levil : !pos -87.204 3.350 12.655 256
+-- !addmission 12 13
+-- Ploh Trishbahk (trigger area) : !pos 100.580 -40.150 -63.830 257
 -----------------------------------
 require('scripts/globals/missions')
 require('scripts/globals/settings')
@@ -18,7 +18,7 @@ local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.THE_HEIRLOO
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.THE_LIGHT_SHINING_IN_YOUR_EYES },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.AN_AIMLESS_JOURNEY },
 }
 
 mission.sections =
@@ -33,21 +33,17 @@ mission.sections =
             onRegionEnter =
             {
                 [1] = function(player, region)
-                    if quest:getVar(player, 'Prog') == 5 then
-                        return quest:progressEvent(526)
-                    end
+                    return mission:progressEvent(1502)
                 end,
             },
 
             onEventFinish =
             {
-                [7] = function(player, csid, option, npc)
+                [1502] = function(player, csid, option, npc)
                     mission:complete(player)
                 end,
             },
         },
-
-
     },
 }
 

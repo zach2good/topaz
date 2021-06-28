@@ -3,7 +3,7 @@
 -- Seekers of Adoulin M2-1
 -----------------------------------
 -- !addmission 12 11
--- Levil : !pos -87.204 3.350 12.655 256
+-- Masad : !pos -28.182 -0.650 -91.991 256
 -----------------------------------
 require('scripts/globals/missions')
 require('scripts/globals/settings')
@@ -26,31 +26,8 @@ mission.sections =
     -- 0:
     {
         check = function(player, currentMission, missionStatus, vars)
-            return currentMission == mission.missionId and missionStatus == 0
-        end,
-
-        [xi.zone.WESTERN_ADOULIN] =
-        {
-            ['Levil'] =
-            {
-                onTrigger = function(player, npc)
-                    return mission:progressEvent(6)
-                end,
-            },
-
-            onEventFinish =
-            {
-                [7] = function(player, csid, option, npc)
-                    player:setMissionStatus(mission.areaId, 1)
-                end,
-            },
-        },
-    },
-
-    -- 1:
-    {
-        check = function(player, currentMission, missionStatus, vars)
-            return currentMission == mission.missionId and missionStatus == 1
+            return currentMission == mission.missionId-- and
+                   --player:getQuestStatus(xi.quest.log_id.ADOULIN, xi.quest.id.soa.FLAVORS_OF_OUR_LIVES) == QUEST_COMPLETED
         end,
 
         [xi.zone.WESTERN_ADOULIN] =
@@ -58,13 +35,13 @@ mission.sections =
             ['Masad'] =
             {
                 onTrigger = function(player, npc)
-                    return mission:progressEvent(6)
+                    return mission:progressEvent(8)
                 end,
             },
 
             onEventFinish =
             {
-                [7] = function(player, csid, option, npc)
+                [8] = function(player, csid, option, npc)
                     mission:complete(player)
                 end,
             },

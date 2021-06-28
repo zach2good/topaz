@@ -14,11 +14,11 @@ require('scripts/globals/zone')
 local ID = require("scripts/zones/Western_Adoulin/IDs")
 -----------------------------------
 
-local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.THE_LIGHT_SHINING_IN_YOUR_EYES)
+local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.FRICTION_AND_FISSURES)
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.THE_HEIRLOOM },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.THE_CELENNIA_MEMORIAL_LIBRARY },
 }
 
 mission.sections =

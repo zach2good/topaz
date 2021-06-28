@@ -1,9 +1,9 @@
 -----------------------------------
--- Budding Prospects
--- Seekers of Adoulin M2-1
+-- Honor and Audacity
+-- Seekers of Adoulin M2-4
 -----------------------------------
--- !addmission 12 11
--- Levil : !pos -87.204 3.350 12.655 256
+-- !addmission 12 18
+-- RALA_WATERWAYS : !zone 258
 -----------------------------------
 require('scripts/globals/missions')
 require('scripts/globals/settings')
@@ -14,11 +14,11 @@ require('scripts/globals/zone')
 local ID = require("scripts/zones/Western_Adoulin/IDs")
 -----------------------------------
 
-local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.THE_HEIRLOOM)
+local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.HONOR_AND_AUDACITY)
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.THE_LIGHT_SHINING_IN_YOUR_EYES },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.THE_WATERGARDEN_COLISEUM },
 }
 
 mission.sections =
@@ -28,20 +28,18 @@ mission.sections =
             return currentMission == mission.missionId
         end,
 
-        [xi.zone.YORCIA_WEALD] =
+        [xi.zone.RALA_WATERWAYS] =
         {
             onZoneIn =
             {
                 function(player, prevZone)
-                    if prevZone == xi.zone.WINDURST_WATERS or prevZone == xi.zone.WINDURST_WOODS then
-                        return mission:event(510)
-                    end
+                    return mission:event(342)
                 end,
             },
 
             onEventFinish =
             {
-                [7] = function(player, csid, option, npc)
+                [342] = function(player, csid, option, npc)
                     mission:complete(player)
                 end,
             },

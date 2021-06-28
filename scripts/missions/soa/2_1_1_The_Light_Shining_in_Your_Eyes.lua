@@ -1,8 +1,8 @@
 -----------------------------------
--- Budding Prospects
--- Seekers of Adoulin M2-1
+-- The Light Shining in Your Eyes
+-- Seekers of Adoulin M2-1-1
 -----------------------------------
--- !addmission 12 11
+-- !addmission 12 12
 -- Levil : !pos -87.204 3.350 12.655 256
 -----------------------------------
 require('scripts/globals/missions')
@@ -25,7 +25,7 @@ mission.sections =
 {
     {
         check = function(player, currentMission, missionStatus, vars)
-            return currentMission == mission.missionId and missionStatus == 0
+            return currentMission == mission.missionId
         end,
 
         [xi.zone.WESTERN_ADOULIN] =
@@ -33,13 +33,13 @@ mission.sections =
             ['Levil'] =
             {
                 onTrigger = function(player, npc)
-                    return mission:progressEvent(6)
+                    return mission:progressEvent(9)
                 end,
             },
 
             onEventFinish =
             {
-                [7] = function(player, csid, option, npc)
+                [9] = function(player, csid, option, npc)
                     mission:complete(player)
                 end,
             },

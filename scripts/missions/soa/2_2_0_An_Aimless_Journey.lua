@@ -1,9 +1,9 @@
 -----------------------------------
--- Budding Prospects
--- Seekers of Adoulin M2-1
+-- An Aimless Journey
+-- Seekers of Adoulin M2-2
 -----------------------------------
--- !addmission 12 11
--- Levil : !pos -87.204 3.350 12.655 256
+-- !addmission 12 14
+-- Ergon Locus : !pos -140.000 10.000 60.000 270
 -----------------------------------
 require('scripts/globals/missions')
 require('scripts/globals/settings')
@@ -14,11 +14,11 @@ require('scripts/globals/zone')
 local ID = require("scripts/zones/Western_Adoulin/IDs")
 -----------------------------------
 
-local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.THE_HEIRLOOM)
+local mission = Mission:new(xi.mission.log_id.SOA, xi.mission.id.soa.AN_AIMLESS_JOURNEY)
 
 mission.reward =
 {
-    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.THE_LIGHT_SHINING_IN_YOUR_EYES },
+    nextMission = { xi.mission.log_id.SOA, xi.mission.id.soa.ORTHARSYNE },
 }
 
 mission.sections =
@@ -33,15 +33,13 @@ mission.sections =
             onRegionEnter =
             {
                 [1] = function(player, region)
-                    if quest:getVar(player, 'Prog') == 5 then
-                        return quest:progressEvent(526)
-                    end
+                    return mission:progressEvent(12)
                 end,
             },
 
             onEventFinish =
             {
-                [7] = function(player, csid, option, npc)
+                [12] = function(player, csid, option, npc)
                     mission:complete(player)
                 end,
             },
