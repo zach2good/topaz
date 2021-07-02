@@ -1,0 +1,20 @@
+Mannequin item ex_data:
+(as per Furniture)
+6: Grid X 
+7: Grid Z
+8: Grid Y
+9: Facing Dir
+
+Equipment:
+10: Main Hand
+11: Off Hand
+12: Ranged
+13: Head
+14: Body
+15: Hands
+16: Legs
+17: Feet
+
+Other:
+18: Race (must be set, or won't accept equipment!)
+19: Pose

@@ -1634,6 +1634,7 @@ void SmallPacket0x03A(map_session_data_t* const PSession, CCharEntity* const PCh
     }
     PChar->pushPacket(new CInventoryFinishPacket());
 }
+
 /************************************************************************
  *                                                                       *
  *  Mannequin Equip                                                      *
@@ -1645,11 +1646,73 @@ void SmallPacket0x03B(map_session_data_t* const PSession, CCharEntity* const PCh
     TracyZoneScoped;
     TracyZoneCString("Mannequin Equip");
 
-    //CItem* equippedItem   = nullptr;
-    //CItem* unequippedItem = nullptr;
+    // TODO: Rate-limit this packet
+    // TODO: Validate all of these
+    uint8 action                  = data.ref<uint8>(0x04);
+    uint8 mannequinStorageLoc     = data.ref<uint8>(0x08);
+    uint8 mannequinStorageLocSlot = data.ref<uint8>(0x0C);
+    uint8 mannequinSlot           = data.ref<uint8>(0x0D);
+    uint8 arg3                    = data.ref<uint8>(0x10);
+    uint8 itemStorageSlot         = data.ref<uint8>(0x14);
 
-    //PChar->pushPacket(new CInventoryAssignPacket(equippedItem, INV_MANNEQUIN));
-    //PChar->pushPacket(new CInventoryAssignPacket(unequippedItem, INV_NORMAL));
+    auto* PMannequin = PChar->getStorage(mannequinStorageLoc)->GetItem(mannequinStorageLocSlot);
+    auto* PItem      = PChar->getStorage(LOC_STORAGE)->GetItem(itemStorageSlot);
+
+    std::ignore = arg3;
+    std::ignore = PItem;
+
+    switch (action)
+    {
+        case 1:
+        {
+            auto currentItemSlot = PMannequin->m_extra[10 + mannequinSlot];
+            // Unequip
+            if (currentItemSlot == itemStorageSlot)
+            {
+                PMannequin->m_extra[10 + mannequinSlot] = 0;
+            }
+            else // Equip
+            {
+                PMannequin->m_extra[10 + mannequinSlot] = itemStorageSlot;
+                //PItem->setSubType(ITEM_LOCKED);
+            }
+            break;
+        }
+        case 5: // Unequip All
+        {
+            for (uint8 i = 0; i < 8; ++i)
+            {
+                PMannequin->m_extra[10 + i] = 0;
+            }
+            break;
+        }
+    }
+
+    // Write out to Mannequin
+    char extra[sizeof(PMannequin->m_extra) * 2 + 1];
+    Sql_EscapeStringLen(SqlHandle, extra, (const char*)PMannequin->m_extra, sizeof(PMannequin->m_extra));
+
+    const char* Query = "UPDATE char_inventory "
+                        "SET "
+                        "extra = '%s' "
+                        "WHERE location = %u AND slot = %u AND charid = %u";
+
+    if (Sql_Query(SqlHandle, Query, extra, mannequinStorageLoc, mannequinStorageLocSlot, PChar->id) != SQL_ERROR && Sql_AffectedRows(SqlHandle) != 0)
+    {
+        if (PItem)
+        {
+            PChar->pushPacket(new CInventoryItemPacket(PItem, LOC_STORAGE, itemStorageSlot));
+            PChar->pushPacket(new CInventoryAssignPacket(PItem, INV_MANNEQUIN));
+        }
+        PChar->pushPacket(new CInventoryItemPacket(PMannequin, mannequinStorageLoc, mannequinStorageLocSlot));
+        PChar->pushPacket(new CInventoryFinishPacket());
+
+        PChar->pushPacket(new CCharPacket(PChar, ENTITY_UPDATE, UPDATE_ALL_CHAR));
+    }
+    else
+    {
+        ShowError("SmallPacket0x03B: Problem writing Mannequin to database!\n");
+    }
 }
 
 /************************************************************************
