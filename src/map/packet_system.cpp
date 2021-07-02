@@ -1634,6 +1634,23 @@ void SmallPacket0x03A(map_session_data_t* const PSession, CCharEntity* const PCh
     }
     PChar->pushPacket(new CInventoryFinishPacket());
 }
+/************************************************************************
+ *                                                                       *
+ *  Mannequin Equip                                                      *
+ *                                                                       *
+ ************************************************************************/
+
+void SmallPacket0x03B(map_session_data_t* const PSession, CCharEntity* const PChar, CBasicPacket data)
+{
+    TracyZoneScoped;
+    TracyZoneCString("Mannequin Equip");
+
+    //CItem* equippedItem   = nullptr;
+    //CItem* unequippedItem = nullptr;
+
+    //PChar->pushPacket(new CInventoryAssignPacket(equippedItem, INV_MANNEQUIN));
+    //PChar->pushPacket(new CInventoryAssignPacket(unequippedItem, INV_NORMAL));
+}
 
 /************************************************************************
  *                                                                       *
@@ -6971,6 +6988,7 @@ void PacketParserInitialize()
     PacketSize[0x036] = 0x20; PacketParser[0x036] = &SmallPacket0x036;
     PacketSize[0x037] = 0x0A; PacketParser[0x037] = &SmallPacket0x037;
     PacketSize[0x03A] = 0x04; PacketParser[0x03A] = &SmallPacket0x03A;
+    PacketSize[0x03B] = 0x10; PacketParser[0x03B] = &SmallPacket0x03B;
     PacketSize[0x03C] = 0x00; PacketParser[0x03C] = &SmallPacket0x03C;
     PacketSize[0x03D] = 0x00; PacketParser[0x03D] = &SmallPacket0x03D; // Blacklist Command
     PacketSize[0x041] = 0x00; PacketParser[0x041] = &SmallPacket0x041;
