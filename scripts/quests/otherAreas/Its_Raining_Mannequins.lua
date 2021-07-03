@@ -108,7 +108,7 @@ quest.sections =
             ['Fyi_Chalmwoh'] =
             {
                 onTrigger = function(player, npc)
-                    return quest:event(308) -- Interaction dialog.
+                    return quest:event(308)
                 end,
 
                 onTrade = function(player, npc, trade)
@@ -157,12 +157,12 @@ quest.sections =
             onEventFinish =
             {
                 [311] = function(player, csid, option, npc)
-                    -- TODO: Give mannequin that matches players race + gender
-                    local chosenMannequin = xi.items.HUME_M_MANNEQUIN
+                    local race = player:getRace()
+                    local chosenMannequin = xi.items.HUME_M_MANNEQUIN + race - 1
                     if player:getFreeSlotsCount() > 0 and not player:hasItem(chosenMannequin) then
                         if quest:complete(player) then
                             player:tradeComplete()
-                            player:addItem({ id = xi.items.HUME_M_MANNEQUIN, exdata = { [18] = 1 } })
+                            player:addItem({ id = chosenMannequin, exdata = { [18] = race } })
                         end
                     else
                         player:messageSpecial(mhauraID.text.ITEM_CANNOT_BE_OBTAINED + 4, chosenMannequin)
