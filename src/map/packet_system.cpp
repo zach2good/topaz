@@ -1662,7 +1662,7 @@ void SmallPacket0x03B(map_session_data_t* const PSession, CCharEntity* const PCh
     uint8 itemStorageLocSlot      = data.ref<uint8>(0x14);
 
     // Validation
-    if (action != 1 && action != 5)
+    if (action != 1 && action != 2 && action != 5)
     {
         ShowExploit(CL_YELLOW "SmallPacket0x03B: Invalid action passed to Mannequin Equip packet %u by %s\n" CL_RESET, action, PChar->GetName());
         return;
@@ -1698,21 +1698,14 @@ void SmallPacket0x03B(map_session_data_t* const PSession, CCharEntity* const PCh
 
     switch (action)
     {
-        case 1:
+        case 1: // Equip
         {
-            auto currentItemSlot = PMannequin->m_extra[10 + mannequinInternalSlot];
-
-            // TODO: Set item flags
-
-            // Unequip
-            if (currentItemSlot == itemStorageLocSlot)
-            {
-                PMannequin->m_extra[10 + mannequinInternalSlot] = 0;
-            }
-            else // Equip
-            {
-                PMannequin->m_extra[10 + mannequinInternalSlot] = itemStorageLocSlot;
-            }
+            PMannequin->m_extra[10 + mannequinInternalSlot] = itemStorageLocSlot;
+            break;
+        }
+        case 2: // Unequip
+        {
+            PMannequin->m_extra[10 + mannequinInternalSlot] = 0;
             break;
         }
         case 5: // Unequip All
@@ -1734,7 +1727,9 @@ void SmallPacket0x03B(map_session_data_t* const PSession, CCharEntity* const PCh
                         "extra = '%s' "
                         "WHERE location = %u AND slot = %u AND charid = %u";
 
-    if (Sql_Query(SqlHandle, Query, extra, mannequinStorageLoc, mannequinStorageLocSlot, PChar->id) != SQL_ERROR && Sql_AffectedRows(SqlHandle) != 0)
+    auto ret = Sql_Query(SqlHandle, Query, extra, mannequinStorageLoc, mannequinStorageLocSlot, PChar->id);
+    auto rows = Sql_AffectedRows(SqlHandle);
+    if (ret != SQL_ERROR && rows != 0)
     {
         //if (PItem && action == 1)
         {
@@ -1744,7 +1739,7 @@ void SmallPacket0x03B(map_session_data_t* const PSession, CCharEntity* const PCh
         PChar->pushPacket(new CInventoryCountTo80Packet(mannequinStorageLoc, mannequinStorageLocSlot, mannequinStorageLocSlot));
         PChar->pushPacket(new CInventoryFinishPacket());
 
-        PChar->pushPacket(new CCharPacket(0x000047DA, 0x05CC, 0x22));
+        PChar->pushPacket(new CCharPacket(67109887, 1023, 0x22));
     }
     else
     {
