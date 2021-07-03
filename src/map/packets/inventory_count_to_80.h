@@ -1,7 +1,7 @@
 ﻿/*
 ===========================================================================
 
-  Copyright (c) 2010-2015 Darkstar Dev Teams
+  Copyright (c) 2021 LandSandBoat Dev Team
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,28 +19,19 @@
 ===========================================================================
 */
 
-#ifndef _CCHARPACKET_H
-#define _CCHARPACKET_H
+#ifndef _CINVENTORYCOUNTTO80PACKET_H
+#define _CINVENTORYCOUNTTO80PACKET_H
 
 #include "../../common/cbasetypes.h"
 
 #include "basic.h"
 
-/************************************************************************
- *																		*
- *  																		*
- *																		*
- ************************************************************************/
-
 class CCharEntity;
 
-class CCharPacket : public CBasicPacket
+class CInventoryCountTo80Packet : public CBasicPacket
 {
 public:
-    CCharPacket(CCharEntity* PChar, ENTITYUPDATE type, uint8 updatemask);
-
-    // For Mannequins
-    CCharPacket(uint32 id, uint16 targid, uint8 updatemask);
+    CInventoryCountTo80Packet(uint8 LocationID, uint8 SlotID, uint8 additionalArg = 0);
 };
 
-#endif
+#endif // _CINVENTORYCOUNTTO80PACKET_H

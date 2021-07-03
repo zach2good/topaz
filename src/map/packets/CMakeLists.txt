@@ -108,6 +108,8 @@ set(SOURCES
     instance_entry.h
     inventory_assign.cpp
     inventory_assign.h
+    inventory_count_to_80.cpp
+    inventory_count_to_80.h
     inventory_finish.cpp
     inventory_finish.h
     inventory_item.cpp

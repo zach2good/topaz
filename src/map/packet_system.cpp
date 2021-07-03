@@ -119,6 +119,7 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "packets/guild_menu_sell.h"
 #include "packets/guild_menu_sell_update.h"
 #include "packets/inventory_assign.h"
+#include "packets/inventory_count_to_80.h"
 #include "packets/inventory_finish.h"
 #include "packets/inventory_item.h"
 #include "packets/inventory_modify.h"
@@ -1646,35 +1647,71 @@ void SmallPacket0x03B(map_session_data_t* const PSession, CCharEntity* const PCh
     TracyZoneScoped;
     TracyZoneCString("Mannequin Equip");
 
-    // TODO: Rate-limit this packet
-    // TODO: Validate all of these
+    // What are you doing?
     uint8 action                  = data.ref<uint8>(0x04);
+
+    // Where is the mannequin?
     uint8 mannequinStorageLoc     = data.ref<uint8>(0x08);
     uint8 mannequinStorageLocSlot = data.ref<uint8>(0x0C);
-    uint8 mannequinSlot           = data.ref<uint8>(0x0D);
-    uint8 arg3                    = data.ref<uint8>(0x10);
-    uint8 itemStorageSlot         = data.ref<uint8>(0x14);
+
+    // Which slot on the mannequin?
+    uint8 mannequinInternalSlot   = data.ref<uint8>(0x0D);
+
+    // Where is the item that is being equipped/unequipped?
+    uint8 itemStorageLoc          = data.ref<uint8>(0x10);
+    uint8 itemStorageLocSlot      = data.ref<uint8>(0x14);
+
+    // Validation
+    if (action != 1 && action != 5)
+    {
+        ShowExploit(CL_YELLOW "SmallPacket0x03B: Invalid action passed to Mannequin Equip packet %u by %s\n" CL_RESET, action, PChar->GetName());
+        return;
+    }
+
+    if (mannequinStorageLoc != LOC_MOGSAFE && mannequinStorageLoc != LOC_MOGSAFE2)
+    {
+        ShowExploit(CL_YELLOW "SmallPacket0x03B: Invalid mannequin location passed to Mannequin Equip packet %u by %s\n" CL_RESET, mannequinStorageLoc, PChar->GetName());
+        return;
+    }
+
+    if (itemStorageLoc != LOC_STORAGE && action == 1) // Only valid for direct equip/unequip 
+    {
+        ShowExploit(CL_YELLOW "SmallPacket0x03B: Invalid item location passed to Mannequin Equip packet %u by %s\n" CL_RESET, itemStorageLoc, PChar->GetName());
+        return;
+    }
+
+    if (mannequinInternalSlot >= 8)
+    {
+        ShowExploit(CL_YELLOW "SmallPacket0x03B: Invalid mannequin equipment index passed to Mannequin Equip packet %u (range: 0-7) by %s\n" CL_RESET, mannequinInternalSlot, PChar->GetName());
+        return;
+    }
 
     auto* PMannequin = PChar->getStorage(mannequinStorageLoc)->GetItem(mannequinStorageLocSlot);
-    auto* PItem      = PChar->getStorage(LOC_STORAGE)->GetItem(itemStorageSlot);
+    if (PMannequin == nullptr)
+    {
+        ShowWarning(CL_YELLOW "SmallPacket0x03B: Unable to load mannequin from slot %u in location %u by %s\n" CL_RESET, mannequinStorageLocSlot, mannequinStorageLoc, PChar->GetName());
+        return;
+    }
 
-    std::ignore = arg3;
-    std::ignore = PItem;
+    // TODO: Moving the Mannequin unequips their main hand, everything else is fine
+    // TODO: Items are not locked/reserved when you equip them. So you can probably remove/move them, and dual wield the same weapon...
 
     switch (action)
     {
         case 1:
         {
-            auto currentItemSlot = PMannequin->m_extra[10 + mannequinSlot];
+            auto currentItemSlot = PMannequin->m_extra[10 + mannequinInternalSlot];
+
+            // TODO: Set item flags
+
             // Unequip
-            if (currentItemSlot == itemStorageSlot)
+            if (currentItemSlot == itemStorageLocSlot)
             {
-                PMannequin->m_extra[10 + mannequinSlot] = 0;
+                PMannequin->m_extra[10 + mannequinInternalSlot] = 0;
             }
             else // Equip
             {
-                PMannequin->m_extra[10 + mannequinSlot] = itemStorageSlot;
-                //PItem->setSubType(ITEM_LOCKED);
+                PMannequin->m_extra[10 + mannequinInternalSlot] = itemStorageLocSlot;
             }
             break;
         }
@@ -1699,15 +1736,15 @@ void SmallPacket0x03B(map_session_data_t* const PSession, CCharEntity* const PCh
 
     if (Sql_Query(SqlHandle, Query, extra, mannequinStorageLoc, mannequinStorageLocSlot, PChar->id) != SQL_ERROR && Sql_AffectedRows(SqlHandle) != 0)
     {
-        if (PItem)
+        //if (PItem && action == 1)
         {
-            PChar->pushPacket(new CInventoryItemPacket(PItem, LOC_STORAGE, itemStorageSlot));
-            PChar->pushPacket(new CInventoryAssignPacket(PItem, INV_MANNEQUIN));
+            //PChar->pushPacket(new CInventoryAssignPacket(PItem, PMannequin->m_extra[10 + mannequinInternalSlot] ? INV_MANNEQUIN : INV_NORMAL));
         }
         PChar->pushPacket(new CInventoryItemPacket(PMannequin, mannequinStorageLoc, mannequinStorageLocSlot));
+        PChar->pushPacket(new CInventoryCountTo80Packet(mannequinStorageLoc, mannequinStorageLocSlot, mannequinStorageLocSlot));
         PChar->pushPacket(new CInventoryFinishPacket());
 
-        PChar->pushPacket(new CCharPacket(PChar, ENTITY_UPDATE, UPDATE_ALL_CHAR));
+        PChar->pushPacket(new CCharPacket(0x000047DA, 0x05CC, 0x22));
     }
     else
     {
