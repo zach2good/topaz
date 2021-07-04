@@ -21,28 +21,27 @@
 
 #include "inventory_count_to_80.h"
 
-CInventoryCountTo80Packet::CInventoryCountTo80Packet(uint8 LocationID, uint8 SlotID, uint8 additionalArg)
+// For Mannequin updates
+CInventoryCountTo80Packet::CInventoryCountTo80Packet(uint8 locationId, uint8 slotId, uint16 headId, uint16 bodyId, uint16 handsId, uint16 legId, uint16 feetId, uint16 mainId, uint16 subId, uint16 rangeId)
 {
     this->type = 0x26; // this->type = 0x026; 
     this->size = 0x1C;
 
-    ref<uint8>(0x04) = LocationID;
-    ref<uint8>(0x05) = SlotID;
-    ref<uint8>(0x06) = additionalArg;
+    ref<uint8>(0x04) = locationId;
+    ref<uint8>(0x05) = slotId;
 
+    // Constants?
     ref<uint8>(0x08) = 0xFC;
     ref<uint8>(0x09) = 0xFC;
     ref<uint8>(0x0A) = 0x1F;
+    ref<uint8>(0x0B) = 0x01;
 
-    if (LocationID)
-    {
-        ref<uint8>(0x0D) = 0x10;
-        ref<uint8>(0x0F) = 0x20;
-        ref<uint8>(0x11) = 0x30;
-        ref<uint8>(0x13) = 0x40;
-        ref<uint8>(0x15) = 0x50;
-        ref<uint8>(0x17) = 0x60;
-        ref<uint8>(0x19) = 0x70;
-        ref<uint8>(0x1B) = 0x80;
-    }
+    ref<uint16>(0x0C) = headId  + 0x1000;
+    ref<uint16>(0x0E) = bodyId  + 0x2000;
+    ref<uint16>(0x10) = handsId + 0x3000;
+    ref<uint16>(0x12) = legId   + 0x4000;
+    ref<uint16>(0x14) = feetId  + 0x5000;
+    ref<uint16>(0x16) = mainId  + 0x6000;
+    ref<uint16>(0x18) = subId   + 0x7000;
+    ref<uint16>(0x1A) = rangeId + 0x8000;
 }

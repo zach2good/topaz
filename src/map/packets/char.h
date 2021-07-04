@@ -38,9 +38,6 @@ class CCharPacket : public CBasicPacket
 {
 public:
     CCharPacket(CCharEntity* PChar, ENTITYUPDATE type, uint8 updatemask);
-
-    // For Mannequins
-    CCharPacket(uint32 id, uint16 targid, uint8 updatemask);
 };
 
 #endif

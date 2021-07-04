@@ -1718,6 +1718,39 @@ void SmallPacket0x03B(map_session_data_t* const PSession, CCharEntity* const PCh
         }
     }
 
+    // Build Mannequin model id list
+    auto getModelIdFromStorageSlot = [](CCharEntity* PChar, uint8 slot) -> uint16
+    {
+        uint16 modelId = 0x0000;
+
+        if (slot == 0)
+        {
+            return modelId;
+        }
+
+        auto* PItem = PChar->getStorage(LOC_STORAGE)->GetItem(slot);
+        if (PItem == nullptr)
+        {
+            return modelId;
+        }
+
+        if (auto* PItemEquipment = dynamic_cast<CItemEquipment*>(PItem))
+        {
+            modelId = PItemEquipment->getModelId();
+        }
+
+        return modelId;
+    };
+
+    uint16 mainId  = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 0]);
+    uint16 subId   = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 1]);
+    uint16 rangeId = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 2]);
+    uint16 headId  = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 3]);
+    uint16 bodyId  = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 4]);
+    uint16 handsId = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 5]);
+    uint16 legId   = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 6]);
+    uint16 feetId  = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 7]);
+ 
     // Write out to Mannequin
     char extra[sizeof(PMannequin->m_extra) * 2 + 1];
     Sql_EscapeStringLen(SqlHandle, extra, (const char*)PMannequin->m_extra, sizeof(PMannequin->m_extra));
@@ -1731,15 +1764,10 @@ void SmallPacket0x03B(map_session_data_t* const PSession, CCharEntity* const PCh
     auto rows = Sql_AffectedRows(SqlHandle);
     if (ret != SQL_ERROR && rows != 0)
     {
-        //if (PItem && action == 1)
-        {
-            //PChar->pushPacket(new CInventoryAssignPacket(PItem, PMannequin->m_extra[10 + mannequinInternalSlot] ? INV_MANNEQUIN : INV_NORMAL));
-        }
+        // TODO: Lock item if needed
         PChar->pushPacket(new CInventoryItemPacket(PMannequin, mannequinStorageLoc, mannequinStorageLocSlot));
-        PChar->pushPacket(new CInventoryCountTo80Packet(mannequinStorageLoc, mannequinStorageLocSlot, mannequinStorageLocSlot));
+        PChar->pushPacket(new CInventoryCountTo80Packet(mannequinStorageLoc, mannequinStorageLocSlot, headId, bodyId, handsId, legId, feetId, mainId, subId, rangeId));
         PChar->pushPacket(new CInventoryFinishPacket());
-
-        PChar->pushPacket(new CCharPacket(67109887, 1023, 0x22));
     }
     else
     {

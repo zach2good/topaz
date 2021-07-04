@@ -169,14 +169,4 @@ CCharPacket::CCharPacket(CCharEntity* PChar, ENTITYUPDATE type, uint8 updatemask
     }
 }
 
-CCharPacket::CCharPacket(uint32 id, uint16 targid, uint8 updatemask)
-{
-    this->type = 0x0D;
-    this->size = 0x3A;
-
-    ref<uint32>(0x04) = id;
-    ref<uint16>(0x08) = targid;
-    ref<uint8>(0x0A)  = updatemask;
-}
-
 // некоторые манипуляции с пакетом приводят к интересному результату (количество голов в какой-то игре)

@@ -31,7 +31,8 @@ class CCharEntity;
 class CInventoryCountTo80Packet : public CBasicPacket
 {
 public:
-    CInventoryCountTo80Packet(uint8 LocationID, uint8 SlotID, uint8 additionalArg = 0);
+    // For Mannequin updates
+    CInventoryCountTo80Packet(uint8 locationId, uint8 slotId, uint16 headId, uint16 bodyId, uint16 handsId, uint16 legId, uint16 feetId, uint16 mainId, uint16 subId, uint16 rangeId);
 };
 
 #endif // _CINVENTORYCOUNTTO80PACKET_H
