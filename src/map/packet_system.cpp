@@ -1696,15 +1696,42 @@ void SmallPacket0x03B(map_session_data_t* const PSession, CCharEntity* const PCh
     // TODO: Moving the Mannequin unequips their main hand, everything else is fine
     // TODO: Items are not locked/reserved when you equip them. So you can probably remove/move them, and dual wield the same weapon...
 
+    auto setStatusOfStorageItemAtSlot = [](CCharEntity* PChar, uint8 slot, uint8 status) -> void
+    {
+        if (PChar == nullptr || slot == 0)
+        {
+            return;
+        }
+
+        auto* PItem = PChar->getStorage(LOC_STORAGE)->GetItem(slot);
+        if (PItem == nullptr)
+        {
+            return;
+        }
+
+        PChar->pushPacket(new CInventoryAssignPacket(PItem, status));
+    };
+
     switch (action)
     {
         case 1: // Equip
         {
-            PMannequin->m_extra[10 + mannequinInternalSlot] = itemStorageLocSlot;
+            // Action 1 Unequip Hack: Does this need to exist?
+            if (PMannequin->m_extra[10 + mannequinInternalSlot] == itemStorageLocSlot)
+            {
+                setStatusOfStorageItemAtSlot(PChar, itemStorageLocSlot, INV_NORMAL);
+                PMannequin->m_extra[10 + mannequinInternalSlot] = 0;
+            }
+            else // Regular Logic
+            {
+                setStatusOfStorageItemAtSlot(PChar, itemStorageLocSlot, INV_MANNEQUIN);
+                PMannequin->m_extra[10 + mannequinInternalSlot] = itemStorageLocSlot;
+            }
             break;
         }
         case 2: // Unequip
         {
+            setStatusOfStorageItemAtSlot(PChar, itemStorageLocSlot, INV_NORMAL);
             PMannequin->m_extra[10 + mannequinInternalSlot] = 0;
             break;
         }
@@ -1712,6 +1739,10 @@ void SmallPacket0x03B(map_session_data_t* const PSession, CCharEntity* const PCh
         {
             for (uint8 i = 0; i < 8; ++i)
             {
+                if (PMannequin->m_extra[10 + i] > 0)
+                {
+                    setStatusOfStorageItemAtSlot(PChar, PMannequin->m_extra[10 + i], INV_NORMAL);
+                }
                 PMannequin->m_extra[10 + i] = 0;
             }
             break;

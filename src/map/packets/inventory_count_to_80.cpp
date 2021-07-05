@@ -21,20 +21,30 @@
 
 #include "inventory_count_to_80.h"
 
+CInventoryCountTo80Packet::CInventoryCountTo80Packet(uint8 locationId, uint8 slotId)
+{
+    this->type = 0x26; // this->type = 0x026;
+    this->size = 0x1C;
+
+    ref<uint8>(0x04) = locationId;
+    ref<uint8>(0x05) = slotId;
+}
+
 // For Mannequin updates
 CInventoryCountTo80Packet::CInventoryCountTo80Packet(uint8 locationId, uint8 slotId, uint16 headId, uint16 bodyId, uint16 handsId, uint16 legId, uint16 feetId, uint16 mainId, uint16 subId, uint16 rangeId)
 {
     this->type = 0x26; // this->type = 0x026; 
     this->size = 0x1C;
 
-    ref<uint8>(0x04) = locationId;
-    ref<uint8>(0x05) = slotId;
+    ref<uint8>(0x04) = 0x01;
+    ref<uint8>(0x05) = locationId;
+    ref<uint8>(0x06) = slotId;
 
-    // Constants?
     ref<uint8>(0x08) = 0xFC;
     ref<uint8>(0x09) = 0xFC;
     ref<uint8>(0x0A) = 0x1F;
-    ref<uint8>(0x0B) = 0x01;
+
+    ref<uint8>(0x0B) = 0x01; // Update mask?
 
     ref<uint16>(0x0C) = headId  + 0x1000;
     ref<uint16>(0x0E) = bodyId  + 0x2000;
