@@ -1781,6 +1781,8 @@ void SmallPacket0x03B(map_session_data_t* const PSession, CCharEntity* const PCh
     uint16 handsId = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 5]);
     uint16 legId   = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 6]);
     uint16 feetId  = getModelIdFromStorageSlot(PChar, PMannequin->m_extra[10 + 7]);
+    // 10 + 8 = Race
+    // 10 + 9 = Pose
  
     // Write out to Mannequin
     char extra[sizeof(PMannequin->m_extra) * 2 + 1];
