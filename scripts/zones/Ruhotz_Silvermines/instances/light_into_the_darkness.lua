@@ -15,34 +15,6 @@
 -- - They all have fairly low HP and Defense but are highly resistant or immune to Gravity and Bind.
 -- - They have True Hearing.
 -- - Trusts are allowed.
---
--- TODO:
--- - (capped) Opening cs is missing (cs 4)
--- - (capped) Ending cs when you zone back into Pashhow Marshlands [S] (cs 902)
--- - Sapphire Quadav is meant to be bigger than the others
--- - Exit on fail zone and location is wrong
---
--- DONE:
--- - cs needs NPC data:
---      - [Warning] Server need NPC <17158387>
---      - [Warning] Server need NPC <17158388>
---      - [Warning] Server need NPC <17158389>
---      - [Warning] Server need NPC <17158390>
---      - [Warning] Server need NPC <17158391>
---      - [Warning] Server need NPC <17158392>
---      - [Warning] Server need NPC <17158393>
---      - [Warning] Server need NPC <17158394>
---      - [Warning] Server need NPC <17158395>
---      - [Warning] Server need NPC <17158396>
---      - [Warning] Server need NPC <17158397>
--- - (capped) They should be buffing with Aquaveil, Blink, Stoneskin, Protect III, Shell III, Haste
--- - (capped) They should start roaming immediately, there is currently a delay and then they _all_ start
--- - Make Sapphire Quadav roam between groups (a triangle around the room is fine)
--- - (capped) Exit cs (cs 10000)
--- - (capped) The Sapphirine Quadav models are wrong, they should have blue clubs
--- - (capped) The fight ends after defeating 7 henchmen (so presumably, any Quadavs will work)
--- - (capped) The henchmen look to have 2100ish HP each
--- - (capped) They should aggro to sound (so you can stand still and cast trusts at the start etc.)
 -----------------------------------
 require("scripts/globals/instance")
 require("scripts/globals/keyitems")
@@ -82,9 +54,8 @@ instance_object.onInstanceTimeUpdate = function(instance, elapsed)
         end
     end
 
-    if deadCount >= 7 and instance:getLocalVar("FLAGGED_DONE") == 0 then
+    if deadCount >= 7 then
         instance:complete()
-        instance:setLocalVar("FLAGGED_DONE", 1)
     end
 end
 
@@ -99,17 +70,9 @@ instance_object.onInstanceProgressUpdate = function(instance, progress)
 end
 
 instance_object.onInstanceComplete = function(instance)
-    -- HACK: To stop the cutscene being interrupted, force
-    --       despawn all the mobs
-    for i = 0, 9 do
-        DespawnMob(ID.mob.SAPPHIRINE_QUADAV_OFFSET + i, instance)
-    end
-
-    -- TODO: This gets interrupted by aggressive actions
     local chars = instance:getChars()
     for _, v in ipairs(chars) do
-        -- HACK: Add a delay timer here to try and make sure this event isn't interrupted
-        v:timer(2500, function(vArg) vArg:startEvent(10000) end)
+        v:startEvent(10000)
     end
 end
 
