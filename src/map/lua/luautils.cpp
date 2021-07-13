@@ -2809,9 +2809,9 @@ namespace luautils
 
         if (PTarget->objtype == TYPE_PC)
         {
-            ((CCharEntity*)PTarget)->m_event.reset();
-            ((CCharEntity*)PTarget)->m_event.Target = PMob;
-            ((CCharEntity*)PTarget)->m_event.Script = filename;
+            //((CCharEntity*)PTarget)->m_event.reset();
+            //((CCharEntity*)PTarget)->m_event.Target = PMob;
+            //((CCharEntity*)PTarget)->m_event.Script = filename;
         }
 
         sol::function onMobEngaged = getEntityCachedFunction(PMob, "onMobEngaged");
@@ -3028,9 +3028,9 @@ namespace luautils
                     bool isKiller = PMember == PChar;
                     bool noKiller = false;
 
-                    PMember->m_event.reset();
-                    PMember->m_event.Target = PMob;
-                    PMember->m_event.Script = filename;
+                    // PMember->m_event.reset();
+                    // PMember->m_event.Target = PMob;
+                    // PMember->m_event.Script = filename;
 
                     // onMobDeath(mob, player, isKiller, noKiller)
                     auto result = onMobDeathFramework(LuaMobEntity, optLuaAllyEntity, isKiller, noKiller, onMobDeath);
