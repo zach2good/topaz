@@ -18,11 +18,8 @@
 --
 -- TODO:
 -- - (capped) Opening cs is missing (cs 4)
--- - (capped) They should be buffing with Aquaveil, Blink, Stoneskin, Protect III, Shell III, Haste
--- - (capped) They should start roaming immediately, there is currently a delay and then they _all_ start
 -- - (capped) Ending cs when you zone back into Pashhow Marshlands [S] (cs 902)
 -- - Sapphire Quadav is meant to be bigger than the others
--- - Make Sapphire Quadav roam between groups (a triangle around the room is fine)
 -- - Exit on fail zone and location is wrong
 --
 -- DONE:
@@ -38,6 +35,9 @@
 --      - [Warning] Server need NPC <17158395>
 --      - [Warning] Server need NPC <17158396>
 --      - [Warning] Server need NPC <17158397>
+-- - (capped) They should be buffing with Aquaveil, Blink, Stoneskin, Protect III, Shell III, Haste
+-- - (capped) They should start roaming immediately, there is currently a delay and then they _all_ start
+-- - Make Sapphire Quadav roam between groups (a triangle around the room is fine)
 -- - (capped) Exit cs (cs 10000)
 -- - (capped) The Sapphirine Quadav models are wrong, they should have blue clubs
 -- - (capped) The fight ends after defeating 7 henchmen (so presumably, any Quadavs will work)
